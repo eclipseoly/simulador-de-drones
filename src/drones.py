@@ -43,4 +43,3 @@ class drone:
             print(f"Posição: ({self.posx:.1f}, {self.posy:.1f})")
             # sleep so pra ter um incentivo visual no terminal (acho que vo tirar depois)
             time.sleep(0.1)
-            
