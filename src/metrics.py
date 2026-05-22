@@ -1,3 +1,4 @@
+# Como a coleta de métricas é uma exigência forte, este módulo vai atuar como um "espião" passivo, apenas anotando o que acontece.
 # n de drones colididos
 # drones que chegaram ao destino
 # drones que n chegaram

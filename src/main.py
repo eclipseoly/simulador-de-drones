@@ -1,0 +1,1 @@
+# O main junta tudo. Ele importa os outros 4 arquivos e roda o loop infinito
