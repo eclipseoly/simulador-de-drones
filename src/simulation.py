@@ -7,11 +7,11 @@ import drones
 quantColisoes = 0
 quantConcluidos = 0
 
-def criandoDrones(n):
+def criandoDrones(n,largura,altura,posx,posy,destinox,destinoy,velocidade):
     conjuntoDrones = []
     for i in range(n):
         # depois implemento pra pegar da interface
-        drone = drones.drone()
+        drone = drones.drone(largura,altura,posx,posy,destinox,destinoy,velocidade)
         conjuntoDrones.append(drone)
 
     locomocao(conjuntoDrones,n)
