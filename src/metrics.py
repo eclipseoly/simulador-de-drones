@@ -15,7 +15,6 @@ colisoes = []
 chegaram = []
 distancia = []
 passos = []
-distanciaDesvio = []
 
 # cada ax é um axes e representa um grafico
 def gerandoGraficos():
@@ -47,6 +46,21 @@ def gerandoGraficos():
     ax2.set_xlabel("Tempo (s)")
     ax2.set_ylabel("Drones")
     ax2.legend()
+
+
+    fig3, ax3 = plt.subplots()
+    ax3.plot(tempos, distancia,
+        color="#480caa",
+        linewidth=2,
+        linestyle='--',
+        marker='o',
+        markersize=3,
+        markerfacecolor='#480caa',
+        label='Colisões')
+    ax3.set_title("Distancia média x Tempo")
+    ax3.set_xlabel("Tempo (s)")
+    ax3.set_ylabel("Colisões")
+    ax3.legend()
 
     plt.show()
     # modo interativo

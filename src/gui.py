@@ -7,6 +7,8 @@ Ele cria a janela, os menus e o mapa onde os drones serão desenhados.
 import customtkinter as ctk
 from PIL import Image, ImageTk # Biblioteca Pillow: Essencial para carregar, redimensionar e exibir arquivos de imagem (como os ícones dos drones)
 import os
+import simulation
+import metrics
 
 class App(ctk.CTk):
     """
@@ -62,7 +64,12 @@ class App(ctk.CTk):
         self.entrada_qtd = ctk.CTkEntry(self.menu_frame, placeholder_text="Qtd de Drones")
         # fill="x" faz a caixinha esticar horizontalmente para preencher o frame
         self.entrada_qtd.pack(pady=10, padx=20, fill="x")
-        
+
+
+        self.velocidade_qtd = ctk.CTkEntry(self.menu_frame, placeholder_text="Velocidade dos drones")
+        self.velocidade_qtd.pack(pady=10, padx=20, fill="x")
+
+
         # Botão de Ação
         # command=self.iniciar é o "gatilho". Diz ao botão qual função executar ao ser clicado (sem os parênteses).
         self.botao_iniciar = ctk.CTkButton(self.menu_frame, text="Iniciar Simulação", command=self.iniciar)
@@ -140,7 +147,14 @@ class App(ctk.CTk):
         """
         Função engatilhada quando o botão 'Iniciar Simulação' é clicado.
         """
-        qtd_texto = self.entrada_qtd.get()
+        qtd_texto = int(self.entrada_qtd.get())
+        velocidade = int(self.velocidade_qtd.get())
+
+        largura = 1
+        altura = 1
+
+        simulation.criandoDrones(qtd_texto, largura, altura, velocidade)
+        metrics.gerandoGraficos()
         
         # ---------------------------------------------------------
         # Chama o método que criamos para escrever no terminal da interface.
