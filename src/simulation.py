@@ -6,6 +6,7 @@
 import drones
 import metrics
 import random
+import time
 
 quantColisoes = 0
 quantConcluidos = 0
@@ -13,9 +14,11 @@ distanciaMedia = 0
 segs = 0
 colisoes = 0
 chegaram = 0
+conjuntoDrones = []
+acabou = False
+
 
 def criandoDrones(n,largura,altura,velocidade):
-    conjuntoDrones = []
     global quantColisoes, quantConcluidos, segs, chegaram, colisoes
     quantColisoes = 0
     quantConcluidos = 0
@@ -36,8 +39,8 @@ def criandoDrones(n,largura,altura,velocidade):
         destinoValido = False
 
         while posValida == False:
-            posx = random.randint(1,100)
-            posy = random.randint(1,100)
+            posx = random.randint(1,820)
+            posy = random.randint(1,620)
 
             if not conjuntoDrones:
                 posValida = True
@@ -50,15 +53,14 @@ def criandoDrones(n,largura,altura,velocidade):
                     posValida = True
         
         while destinoValido == False:
-            destinox = random.randint(1,100)
-            destinoy = random.randint(1,100)
+            destinox = random.randint(1,820)
+            destinoy = random.randint(1,620)
 
             if destinox != posx or destinoy != posy:
                 destinoValido = True
 
         drone = drones.drone(largura,altura,posx,posy,destinox,destinoy,velocidade)
         conjuntoDrones.append(drone)
-    locomocao(conjuntoDrones,n)
 
 def verficaColisao(conjuntoDrones):
     global quantColisoes
@@ -66,14 +68,14 @@ def verficaColisao(conjuntoDrones):
         for droneComp in conjuntoDrones:
             if drone is droneComp or drone.status != "normal" or droneComp.status != "normal":
                 continue
-            if abs(drone.posx - droneComp.posx) <= droneComp.largura and abs(drone.posy - droneComp.posy) <= droneComp.altura:
+            if abs(drone.posx - droneComp.posx) <= droneComp.largura / 2 and abs(drone.posy - droneComp.posy) <= droneComp.altura / 2:
                 drone.status = "colidiu"
                 droneComp.status = "colidiu"
                 quantColisoes +=2
                 return 1
     return 0
 def locomocao(conjuntoDrones,n):
-    global quantColisoes, quantConcluidos, segs, chegaram, colisoes
+    global quantColisoes, quantConcluidos, segs, chegaram, colisoes,acabou
     while True:
         distanciaMedia = 0
         for drone in conjuntoDrones:
@@ -95,11 +97,14 @@ def locomocao(conjuntoDrones,n):
         metrics.distancia.append(distanciaMedia)
         # atualiza o tempo
         metrics.tempos.append(segs)
-        segs += 1
+        segs += 0.016
         
         if quantConcluidos + quantColisoes == n:
+            acabou = True
             return "fim da simulacao"
         
+        time.sleep(0.016)
+    
 # entradas comuns
 # saidas e metricas
 # cenarios (pode ter uma interface dividida com os dois cenarios representados)

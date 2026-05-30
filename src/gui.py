@@ -9,6 +9,7 @@ from PIL import Image, ImageTk # Biblioteca Pillow: Essencial para carregar, red
 import os
 import simulation
 import metrics
+import threading
 
 class App(ctk.CTk):
     """
@@ -20,6 +21,10 @@ class App(ctk.CTk):
     def __init__(self):
         # Inicia a "planta base" da janela do customtkinter
         super().__init__()
+
+
+        self.itens_drones = {}
+
         
         # ======================================================================
         # 1. CONFIGURAÇÕES DA JANELA PRINCIPAL
@@ -89,6 +94,12 @@ class App(ctk.CTk):
         # expand=True faz essa caixa devorar todo o espaço vertical que sobrou no menu
         self.caixa_log.pack(pady=10, padx=10, fill="both", expand=True)
         
+
+
+
+
+
+
         # ======================================================================
         # 3. ÁREA DO MAPA (O "Quadro Negro" da Simulação)
         # ======================================================================
@@ -112,7 +123,7 @@ class App(ctk.CTk):
         
         # 1. Carrega o Drone
         caminho_drone = os.path.join(diretorio_atual, "assets", "drone.png")
-        img_drone = Image.open(caminho_drone).resize((40, 40), Image.Resampling.LANCZOS)
+        img_drone = Image.open(caminho_drone).resize((60, 60), Image.Resampling.LANCZOS)
         self.icone_drone = ImageTk.PhotoImage(img_drone)
         
         # 2. Carrega a Explosão
@@ -130,9 +141,18 @@ class App(ctk.CTk):
         img_alvo = Image.open(caminho_alvo).resize((50, 50), Image.Resampling.LANCZOS)
         self.icone_alvo = ImageTk.PhotoImage(img_alvo)
 
+
+
+
+
     # ==========================================================================
     # 5. FUNÇÕES DE AÇÃO (Métodos da Interface)
     # ==========================================================================
+
+
+
+
+
 
     def imprimir_log(self, mensagem):
         """
@@ -142,33 +162,60 @@ class App(ctk.CTk):
         self.caixa_log.insert("end", f"> {mensagem}\n")    # 2. Insere a mensagem com um marcador '>'
         self.caixa_log.see("end")                          # 3. Rola a barra de rolagem para a mensagem mais recente
         self.caixa_log.configure(state="disabled")         # 4. Trava a caixa novamente
-    
+
+
+    def animar(self):
+        # movimenta os drones na tela
+        for drone, item in self.itens_drones.items():
+            self.mapa_canvas.coords(item, drone.posx, drone.posy)
+            if(drone.status == "colidiu"):
+                self.mapa_canvas.itemconfig(item, image=self.icone_explosao)
+        
+        if(simulation.acabou == True):
+            metrics.gerandoGraficos()
+            return
+
+        # nao usei while true pq congela a gui
+        # chama a funcao a cada 16ms
+        self.after(16, self.animar)
+
+
     def iniciar(self):
         """
         Função engatilhada quando o botão 'Iniciar Simulação' é clicado.
         """
+
+        self.mapa_canvas.delete("all")
+        
         qtd_texto = int(self.entrada_qtd.get())
         velocidade = int(self.velocidade_qtd.get())
 
-        largura = 1
-        altura = 1
+        largura = 60
+        altura = 60
 
         simulation.criandoDrones(qtd_texto, largura, altura, velocidade)
-        metrics.gerandoGraficos()
-        
-        # ---------------------------------------------------------
-        # Chama o método que criamos para escrever no terminal da interface.
-        # O 'f' antes das aspas (f-string) permite injetar variáveis diretamente dentro do texto.
-        # Assim, o valor da variável {qtd_texto} é substituído automaticamente na frase antes de ser impresso.
+        for drone in simulation.conjuntoDrones:
+            item = self.mapa_canvas.create_image(
+                drone.posInicialx, drone.posInicialy,
+                image=self.icone_drone,
+                anchor="center"
+            )
+            self.itens_drones[drone] = item
+
+        t = threading.Thread(target=simulation.locomocao, args = (simulation.conjuntoDrones,qtd_texto))
+        t.start()
+        self.animar()
+
         self.imprimir_log(f"Iniciando simulação... Preparando {qtd_texto} drones.")
         # ---------------------------------------------------------
         
-        self.mapa_canvas.delete("all")
-        
-        self.mapa_canvas.create_image(100, 300, image=self.icone_base, anchor="center")
-        self.mapa_canvas.create_image(200, 300, image=self.icone_drone, anchor="center")
-        self.mapa_canvas.create_image(350, 300, image=self.icone_explosao, anchor="center") 
-        self.mapa_canvas.create_image(650, 300, image=self.icone_alvo, anchor="center")
+
+
+
+        # self.mapa_canvas.create_image(100, 300, image=self.icone_base, anchor="center")
+        # self.mapa_canvas.create_image(200, 300, image=self.icone_drone, anchor="center")
+        # self.mapa_canvas.create_image(350, 300, image=self.icone_explosao, anchor="center") 
+        # self.mapa_canvas.create_image(650, 300, image=self.icone_alvo, anchor="center")
         
         # ---------------------------------------------------------
         # SUBSTITUÍMOS O PRINT POR SELF.IMPRIMIR_LOG!
