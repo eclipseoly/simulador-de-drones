@@ -72,8 +72,6 @@ def verficaColisao(conjuntoDrones):
                 drone.status = "colidiu"
                 droneComp.status = "colidiu"
                 quantColisoes +=2
-                return 1
-    return 0
 def locomocao(conjuntoDrones,n):
     global quantColisoes, quantConcluidos, segs, chegaram, colisoes,acabou
     while True:
@@ -89,10 +87,9 @@ def locomocao(conjuntoDrones,n):
         distanciaMedia /= n
 
 
-        if verficaColisao(conjuntoDrones):
-            colisoes += 1
+        verficaColisao(conjuntoDrones)
 
-        metrics.colisoes.append(colisoes)
+        metrics.colisoes.append(quantColisoes/2)
         metrics.chegaram.append(chegaram)
         metrics.distancia.append(distanciaMedia)
         # atualiza o tempo

@@ -24,6 +24,8 @@ class App(ctk.CTk):
 
 
         self.itens_drones = {}
+        self.animacaoId = None
+        self.threadSimulacao = None
 
         
         # ======================================================================
@@ -172,21 +174,48 @@ class App(ctk.CTk):
                 self.mapa_canvas.itemconfig(item, image=self.icone_explosao)
         
         if(simulation.acabou == True):
-            metrics.gerandoGraficos()
+            # espera um segundo e gera os graficos
+            self.after(1000, metrics.gerandoGraficos)
             return
 
         # nao usei while true pq congela a gui
         # chama a funcao a cada 16ms
-        self.after(16, self.animar)
+        self.animacaoId = self.after(16, self.animar)
 
+
+    def resetar(self):
+        # limpa tudo das execucoes anteriores
+        # cancela a animacao
+        if self.animacaoId:
+            self.mapa_canvas.after_cancel(self.animacaoId)
+            self.animacaoId = None
+
+        # limpa os dados dos graficos
+        metrics.chegaram.clear()
+        metrics.colisoes.clear()
+        metrics.distancia.clear()
+        metrics.tempos.clear()
+
+        # deleta os elementos do quadro
+        self.mapa_canvas.delete("all")
+        # deleta os drones desenhados
+        self.itens_drones.clear()
+
+        # lista os drones criados e reseta o estado para nao acabou
+        simulation.conjuntoDrones.clear()
+        simulation.acabou = False
+
+        # espera 2 segundos para matar a thread que executa a simulacao
+        if self.threadSimulacao and self.threadSimulacao.is_alive():
+            self.threadSimulacao.join(timeout=2)
 
     def iniciar(self):
         """
         Função engatilhada quando o botão 'Iniciar Simulação' é clicado.
         """
 
-        self.mapa_canvas.delete("all")
-        
+        self.resetar()
+
         qtd_texto = int(self.entrada_qtd.get())
         velocidade = int(self.velocidade_qtd.get())
 
@@ -202,16 +231,12 @@ class App(ctk.CTk):
             )
             self.itens_drones[drone] = item
 
-        t = threading.Thread(target=simulation.locomocao, args = (simulation.conjuntoDrones,qtd_texto))
-        t.start()
+        self.threadSimulacao = threading.Thread(target=simulation.locomocao, args = (simulation.conjuntoDrones,qtd_texto))
+        self.threadSimulacao.start()
         self.animar()
 
         self.imprimir_log(f"Iniciando simulação... Preparando {qtd_texto} drones.")
         # ---------------------------------------------------------
-        
-
-
-
         # self.mapa_canvas.create_image(100, 300, image=self.icone_base, anchor="center")
         # self.mapa_canvas.create_image(200, 300, image=self.icone_drone, anchor="center")
         # self.mapa_canvas.create_image(350, 300, image=self.icone_explosao, anchor="center") 
@@ -221,6 +246,7 @@ class App(ctk.CTk):
         # SUBSTITUÍMOS O PRINT POR SELF.IMPRIMIR_LOG!
         self.imprimir_log("Todos os assets foram desenhados na tela com sucesso!")
         self.imprimir_log("Aguardando motor de física...")
+        self.imprimir_log(f"")
         # ---------------------------------------------------------
 
 

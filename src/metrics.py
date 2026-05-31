@@ -8,7 +8,13 @@
 # taxa de colisao
 # numero de passos/iteracoes ate o fim da execucao
 import matplotlib.pyplot as plt
-import time
+from datetime import datetime
+import os
+
+# pega o diretorio de graficos idependentemente de cada sistema operacional
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+GRAPHS_DIR = os.path.join(BASE_DIR, "graphs")
+os.makedirs(GRAPHS_DIR, exist_ok=True)
 
 tempos = []
 colisoes = []
@@ -59,8 +65,15 @@ def gerandoGraficos():
         label='Colisões')
     ax3.set_title("Distancia média x Tempo")
     ax3.set_xlabel("Tempo (s)")
-    ax3.set_ylabel("Colisões")
+    ax3.set_ylabel("Distancia")
     ax3.legend()
+
+    # salva os graficos na pasta com nomes diferentes
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    fig1.savefig(os.path.join(GRAPHS_DIR, f"colisoes_{timestamp}.png"))
+    fig2.savefig(os.path.join(GRAPHS_DIR, f"chegaram_{timestamp}.png"))
+    fig3.savefig(os.path.join(GRAPHS_DIR, f"distancia_{timestamp}.png"))
 
     plt.show()
     # modo interativo
