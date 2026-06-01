@@ -4,3 +4,5 @@ __pycache__/
 
 src/graphs/*.png
 !src/graphs/.gitkeep
+
+venv/
