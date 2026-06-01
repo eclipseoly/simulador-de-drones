@@ -1,8 +1,10 @@
-import drones
-import metrics
+# import drones
+# import metrics
 import gui
-import simulation
+# import simulation
 def main():
-    pass
+    # inicia a interface grafica
+    gui.run()
 if __name__ == "__main__":
     main()
+    
