@@ -6,7 +6,7 @@ O simulador é estruturado por uma arquitetura modularizada, compreendendo um mo
 
 Objetivo do Projeto
 
-O sistema foi desenvolvido para atender às exigências da disciplina de Tópicos em Computação – Modelagem Analítica. O objetivo central é implementar a modelagem matemática do comportamento dinâmico de entidades autônomas em rota para destinos predefinidos, validando a eficácia de algoritmos de detecção de colisão espacial concorrente.
+O sistema foi desenvolvido para atender às exigências da disciplina de Tópicos em Modelos. O objetivo central é implementar a modelagem matemática do comportamento dinâmico de entidades autônomas em rota para destinos predefinidos, validando a eficácia de algoritmos de detecção de colisão espacial concorrente.
 
 Adicionalmente, o projeto visa aplicar conceitos práticos de avaliação de desempenho de sistemas através da coleta rigorosa de métricas durante a execução, viabilizando o estudo analítico do comportamento do sistema frente a diferentes cargas e parâmetros.
 
