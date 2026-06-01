@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class drone:
     def __init__(self, largura, altura, posx, posy, destinox, destinoy, velocidade, sigma=0.2, seed=None):
         self.largura = largura
@@ -30,18 +31,19 @@ class drone:
         # distancia percorrida
         self.distanciaPerX = self.posInicialx - self.posx
         self.distanciaPerY = self.posInicialy - self.posy
-        self.distanciaPercorrida = (self.distanciaPerX**2 + self.distanciaPerY**2)**0.5
+        self.distanciaPercorrida = (
+            self.distanciaPerX**2 + self.distanciaPerY**2)**0.5
 
         if distancia < self.velocidade:
             self.posx = self.destinox
             self.posy = self.destinoy
             self.status = "chegou"
             return 1
-        
+
         direcao_x = self.distanciax / distancia
         direcao_y = self.distanciay / distancia
-        ruido_x   = self.desvio.normal(0, self.sigma)
-        ruido_y   = self.desvio.normal(0, self.sigma)
+        ruido_x = self.desvio.normal(0, self.sigma)
+        ruido_y = self.desvio.normal(0, self.sigma)
         # desvio gaussiano para aleatorizar o movimento
 
         self.posx += direcao_x * self.velocidade + ruido_x

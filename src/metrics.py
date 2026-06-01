@@ -23,24 +23,26 @@ distancia = []
 passos = []
 
 # cada ax é um axes e representa um grafico
+
+
 def gerandoGraficos():
 
-    #GRÁFICO 1: COLISÕES
-    
+    # GRÁFICO 1: COLISÕES
+
     fig1, ax1 = plt.subplots()
-    
+
     # Cria um espaço extra na parte de baixo da janela para caber a legenda
     fig1.subplots_adjust(bottom=0.25)
-    
+
     ax1.plot(tempos, colisoes,
-        color='#ff4d4d',
-        linewidth=2,
-        linestyle='--',
-        marker='o',
-        markersize=3,
-        markerfacecolor='#ff4d4d',
-        label='Colisões')
-    
+             color='#ff4d4d',
+             linewidth=2,
+             linestyle='--',
+             marker='o',
+             markersize=3,
+             markerfacecolor='#ff4d4d',
+             label='Colisões')
+
     ax1.set_title("Colisões x Tempo")
     ax1.set_xlabel("Tempo (s)")
     ax1.set_ylabel("Colisões")
@@ -50,41 +52,39 @@ def gerandoGraficos():
 
     # GRÁFICO 2: CHEGARAM AO DESTINO
 
-
     fig2, ax2 = plt.subplots()
-    
+
     # Cria um espaço extra na parte de baixo da janela
     fig2.subplots_adjust(bottom=0.25)
-    
+
     ax2.plot(tempos, chegaram,
-        color='#00e676',
-        linewidth=2,
-        marker='s',
-        markersize=3,
-        markerfacecolor='#00e676',
-        label='Chegaram')
-        
+             color='#00e676',
+             linewidth=2,
+             marker='s',
+             markersize=3,
+             markerfacecolor='#00e676',
+             label='Chegaram')
+
     ax2.set_title("Drones que chegaram x Tempo")
     ax2.set_xlabel("Tempo (s)")
     ax2.set_ylabel("Drones")
     ax2.legend()
 
-
     # GRÁFICO 3: DISTÂNCIA MÉDIA PERCORRIDA
 
     fig3, ax3 = plt.subplots()
-    
+
     # Desenha a linha mostrando a evolução da distância média ao longo do tempo
     ax3.plot(tempos, distancia,
-        color="#480caa",             
-        linewidth=2,
-        linestyle='--',              
-        marker='o',
-        markersize=3,
-        markerfacecolor='#480caa',
-        label='Distância'
-    )
-    
+             color="#480caa",
+             linewidth=2,
+             linestyle='--',
+             marker='o',
+             markersize=3,
+             markerfacecolor='#480caa',
+             label='Distância'
+             )
+
     # Configurações dos títulos e dos eixos X e Y
     ax3.set_title("Distancia média x Tempo")
     ax3.set_xlabel("Tempo (s)")
