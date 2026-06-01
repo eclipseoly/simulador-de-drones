@@ -7,6 +7,7 @@ import drones
 import metrics
 import random
 import time
+import gui
 
 quantColisoes = 0
 quantConcluidos = 0
@@ -89,15 +90,19 @@ def locomocao(conjuntoDrones,n):
 
         verficaColisao(conjuntoDrones)
 
+
+        # salva os dados da simulacao na lista dos graficos
         metrics.colisoes.append(quantColisoes/2)
         metrics.chegaram.append(chegaram)
         metrics.distancia.append(distanciaMedia)
-        # atualiza o tempo
         metrics.tempos.append(segs)
+
+        # atualiza o tempo
         segs += 0.016
         
         if quantConcluidos + quantColisoes == n:
             acabou = True
+            print("concluidos:", quantConcluidos, "colisoes:", quantColisoes, "total:", quantConcluidos + quantColisoes)
             return "fim da simulacao"
         
         time.sleep(0.016)

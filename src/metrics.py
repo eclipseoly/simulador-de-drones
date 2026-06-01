@@ -62,10 +62,10 @@ def gerandoGraficos():
         marker='o',
         markersize=3,
         markerfacecolor='#480caa',
-        label='Colisões')
+        label='Distância')
     ax3.set_title("Distancia média x Tempo")
     ax3.set_xlabel("Tempo (s)")
-    ax3.set_ylabel("Distancia")
+    ax3.set_ylabel("Distância")
     ax3.legend()
 
     # salva os graficos na pasta com nomes diferentes
