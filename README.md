@@ -1,5 +1,7 @@
 OBS: A branch principal do simulador dentro do repositório é a Branch "Main".
 
+Equipe: Gustavo Antonio de Sousa e Luiza Oliveira Paiva
+
 Descrição do Simulador
 
 Este projeto consiste em um simulador computacional bidimensional, desenvolvido inteiramente na linguagem Python. A aplicação modela o deslocamento vetorial de múltiplos drones (tratados como agentes independentes) operando simultaneamente em um plano cartesiano.
