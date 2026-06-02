@@ -1,3 +1,5 @@
+OBS: A branch principal do simulador dentro do repositório é a Branch "Main".
+
 Descrição do Simulador
 
 Este projeto consiste em um simulador computacional bidimensional, desenvolvido inteiramente na linguagem Python. A aplicação modela o deslocamento vetorial de múltiplos drones (tratados como agentes independentes) operando simultaneamente em um plano cartesiano.
@@ -76,3 +78,5 @@ Geração Segura (Spawning): Inicialmente, o sistema processa a instânciação 
 Ciclo Cinemático: Operando integralmente em uma Thread apartada, o loop principal isola cada instância ativa, normaliza os vetores de tração fundamentados no Teorema de Pitágoras e injeta o desvio estocástico (ruído Gaussiano da biblioteca Numpy) gerando trajetórias imprevisíveis e dinâmicas.
 
 Ponte Gráfica e Interrupção: De forma concorrente, o laço de repetição principal da interface consome as coordenadas geradas pela Thread de cálculos e efetua o redesenho constante da malha visível. A simulação atinge sua condição de quebra (Encerramento) estritamente no momento em que o agrupamento de entidades colididas somado ao agrupamento de entidades finalizadas totaliza precisamente a lotação computada na fase de geração. Comprovada essa integridade, os ciclos são rompidos, o processamento de análise estatística é acionado e as imagens matemáticas finais são exportadas.
+
+OBS: 
