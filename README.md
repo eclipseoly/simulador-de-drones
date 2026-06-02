@@ -24,7 +24,7 @@ Instalação de Dependências
 
 O sistema depende de bibliotecas externas fundamentais para a geração da interface visual, cálculos matriciais e plotagem de dados cartesianos. Para realizar a instalação, abra o terminal na pasta raiz do projeto e execute o comando:
 
-pip install customtkinter Pillow matplotlib numpy
+pip install -r requirements.txt
 
 Execução da Aplicação
 
